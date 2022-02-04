@@ -2,6 +2,7 @@
 #include"c_Spravochnik.h"
 #include<iostream>
 #include<fstream>
+#include<string>
 struct Node
 {
 	Node* next;
@@ -121,10 +122,11 @@ public:
 		std::fstream f;
 		f.clear();
 		f.open("File.txt", std::ios::out);
-		f << this->size<<"\n";
+		f << this->size;
 		while (iter!=nullptr)
 		{
-			f << iter->val->getName()<<" " << iter->val->getNameFirm() << " " << iter->val->getNumber() << " " << iter->val->getOccupation() << " " << iter->val->getAddress() << "\n";
+			f << iter->val->getNameFirm()<<":" << iter->val->getName() << ":" << iter->val->getNumber() << ":"
+			<< iter->val->getAddress() << ":" << iter->val->getOccupation() << "\n";
 			iter = iter->next;
 		}
 		f.close();
@@ -160,7 +162,6 @@ public:
 	}
 	void Reading()
 	{
-		
 		int s;
 		Node* tmp = this->head;
 		c_Spravochnik* sp;
@@ -181,6 +182,47 @@ public:
 			f >> address;
 			sp = new c_Spravochnik(n_k,name,number,address,all);
 			this->Add(sp);
+		}
+		f.close();
+	}
+	void read()
+	{
+		std::string str;
+		std::fstream f;
+		std::size_t pos = 0;
+		std::string sep = ":";
+		std::string name;
+		std::string name_firm;
+		std::string number;
+		std::string rod_d;
+		std::string address;
+		c_Spravochnik* sp;
+		f.open("File.txt", std::ios::in);
+		int n;
+		f >> n;
+		std::cout << n << "\n";
+		for (int i = 0; i < n; i++)
+		{
+			std::getline(f, str);
+			while ((pos = str.find(sep)) != std::string::npos)
+			{
+				name = str.substr(0, pos);
+				str.erase(0, pos + sep.length());
+				pos = str.find(sep);
+				name_firm = str.substr(0, pos);
+				str.erase(0, pos + sep.length());
+				pos = str.find(sep);
+				number = str.substr(0, pos);
+				str.erase(0, pos + sep.length());
+				pos = str.find(sep);
+				rod_d = str.substr(0, pos);
+				str.erase(0, pos + sep.length());
+				pos = str.find(sep);
+				address = str.substr(0, pos);
+				str.erase(0, pos + sep.length());
+				sp = new c_Spravochnik(name_firm, name, number, address, rod_d);
+				this->Add(sp);
+			}
 		}
 		f.close();
 	}

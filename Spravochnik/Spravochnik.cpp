@@ -6,10 +6,7 @@ int main()
 {
 	c_Spravochnik* sp;
 	Col_Spravochnik col;
-	
-	
-	/*col.SerchByName("Tem");
-	col.Writh();*/
+
 	int choice;
 	string name_firm;
 	string owner_name;
@@ -67,12 +64,11 @@ int main()
 			break;
 		case 5:
 			system("cls");
-			col.Reading();
+			col.read();
 			system("pause");
 			system("cls");
 			break;
 		}
 	} while (choice != 0);
-	
 }
 
